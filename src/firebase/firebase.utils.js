@@ -1,6 +1,6 @@
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
+const firebase = require("firebase");
+require("firebase/firestore");
+require("firebase/auth");
 
 const config = {
   apiKey: "AIzaSyA21YOBrkk_pZzEyypITjr6LAx8jWOwm9g",
@@ -11,11 +11,33 @@ const config = {
   appId: "1:424856693913:web:0424c9ae48e4e0f8e35c08",
   measurementId: "G-38LK4J2NND",
 };
-
 firebase.initializeApp(config);
+var db = firebase.firestore();
 
-export const auth = firebase.auth();
-export const firestore = firebase.firestore;
+export const createUserProfileDocuments = async (userAuth, additionalData) => {
+  if (!userAuth) return;
+
+  const userRef = db.doc(`users/${userAuth.uid}`);
+  const snapShot = await userRef.get();
+
+  if (!snapShot.exists) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...additionalData,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  return userRef;
+};
 
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: "select_account" });
@@ -23,4 +45,6 @@ export const signInWithGoogle = () => {
   auth.signInWithPopup(provider);
 };
 
+export const auth = firebase.auth();
+export const firestore = firebase.firestore;
 export default firebase;
