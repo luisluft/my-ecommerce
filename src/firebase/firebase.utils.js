@@ -11,10 +11,11 @@ const config = {
   appId: "1:424856693913:web:0424c9ae48e4e0f8e35c08",
   measurementId: "G-38LK4J2NND",
 };
+
 firebase.initializeApp(config);
 var db = firebase.firestore();
 
-export const createUserProfileDocuments = async (userAuth, additionalData) => {
+export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
 
   const userRef = db.doc(`users/${userAuth.uid}`);
