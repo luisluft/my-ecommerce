@@ -158,12 +158,12 @@ const SHOP_DATA = {
       },
     ],
   },
-  women: {
+  womens: {
     id: 4,
-    title: "women",
-    imageUrl: "https://i.ibb.co/GCCdy8t/women.png",
-    linkUrl: "shop/women",
-    routeName: "women",
+    title: "womens",
+    imageUrl: "https://i.ibb.co/GCCdy8t/womens.png",
+    linkUrl: "shop/womens",
+    routeName: "womens",
     items: [
       {
         id: 23,
