@@ -46,6 +46,10 @@ export const signInWithGoogle = () => {
   auth.signInWithPopup(provider);
 };
 
+export const addCollectionAndDocuments = (collectionKey, objectsToAdd) => {
+  const collectionRef = firestore.collection(collectionKey);
+  console.log(collectionRef);
+};
+
 export const auth = firebase.auth();
-export const firestore = firebase.firestore;
-export default firebase;
+export const firestore = firebase.firestore();
