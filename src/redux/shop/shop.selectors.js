@@ -12,6 +12,13 @@ export const selectCollections = createSelector([selectShop], (shop) => {
   return collections;
 });
 
+export const selectCollectionsArray = createSelector([selectShop], (shop) => {
+  let data = shop.collections;
+  let collections = [];
+  Object.keys(data).forEach((key) => collections.push(data[key]));
+  return collections;
+});
+
 // must envelop with memoize function
 export const selectCollection = memoize((collectionUrlParam) =>
   createSelector(

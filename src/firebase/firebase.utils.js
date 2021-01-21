@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
-require("firebase/firestore");
-require("firebase/auth");
+import "firebase/firestore";
+import "firebase/auth";
 
 const config = {
   apiKey: "AIzaSyA21YOBrkk_pZzEyypITjr6LAx8jWOwm9g",
@@ -14,6 +14,8 @@ const config = {
 
 firebase.initializeApp(config);
 var db = firebase.firestore();
+export const firestore = firebase.firestore();
+export const auth = firebase.auth();
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
@@ -46,10 +48,18 @@ export const signInWithGoogle = () => {
   auth.signInWithPopup(provider);
 };
 
-export const addCollectionAndDocuments = (collectionKey, objectsToAdd) => {
-  const collectionRef = firestore.collection(collectionKey);
-  console.log(collectionRef);
-};
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  const collectionReference = firestore.collection(collectionKey);
+  console.log(objectsToAdd);
 
-export const auth = firebase.auth();
-export const firestore = firebase.firestore();
+  const batch = firestore.batch();
+  objectsToAdd.forEach((object) => {
+    const newDocumentReference = collectionReference.doc();
+    batch.set(newDocumentReference, object);
+  });
+
+  return await batch.commit();
+};
