@@ -42,10 +42,11 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef;
 };
 
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: "select_account" });
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+googleProvider.setCustomParameters({ prompt: "select_account" });
 export const signInWithGoogle = () => {
-  auth.signInWithPopup(provider);
+  auth.signInWithPopup(googleProvider);
 };
 
 export const addCollectionAndDocuments = async (
@@ -60,7 +61,6 @@ export const addCollectionAndDocuments = async (
     const newDocumentReference = collectionReference.doc();
     batch.set(newDocumentReference, object);
   });
-
   return await batch.commit();
 };
 
